@@ -1,23 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useContext } from "react";
+import { CiMicrophoneOn } from "react-icons/ci";
+import "./App.css";
+import va from "./assets/ai.png";
+import speakImg from "./assets/speak.gif";
+import aigif from "./assets/aiVoice.gif";
+import { dataContext } from "./context/UserContext";
 function App() {
+  let {
+    recognition,
+    speaking,
+    setSpeaking,
+    prompt,
+    setPrompt,
+    response,
+    setResponse,
+  } = useContext(dataContext);
+
+  // console.log(a);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="main">
+      <img src={va} id="shifra" alt="Shifra" />
+      <span>I am your AI Voice Assiatant!!</span>
+      {!speaking ? (
+        <button
+          onClick={() => {
+            setPrompt("Listening...");
+            setSpeaking(true);
+            setResponse(false);
+            recognition.start();
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Click Here <CiMicrophoneOn />
+        </button>
+      ) : (
+        <div className="responseDiv">
+          {!response ? (
+            <img src={speakImg} id="speak" alt="" />
+          ) : (
+            <img src={aigif} id="aigif" alt="" />
+          )}
+
+          <p>{prompt}</p>
+        </div>
+      )}
     </div>
   );
 }
